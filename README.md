@@ -25,3 +25,7 @@ faces = faceCascade.detectMultiScale(
 For Webcam
 
 OpenCV grabs each frame from the webcam, and you can then detect faces by processing each frame.
+
+Sample Testing
+
+'''python3 face_detect.py doll.jpg'''

@@ -1,0 +1,45 @@
+#!/usr/bin/python
+
+"""
+Author: Abin Abraham
+
+"""
+
+import sys
+import cv2
+
+def face_detects(imgpath, nogui = False, cascasdepath = "haarcascade_frontalface_default.xml"):
+
+    image = cv2.imread(imgpath)
+    gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+
+    face_cascade = cv2.CascadeClassifier(cascasdepath)
+    eye_cascade = cv2.CascadeClassifier('haarcascade_eyes_default.xml')
+    
+    faces = face_cascade.detectMultiScale(
+        gray,
+        scaleFactor = 1.2,
+        minNeighbors = 5,
+        minSize = (30,30)
+
+        )
+
+    print("The number of eyes found = ", len(faces))
+
+    for (x,y,w,h) in faces:
+        cv2.rectangle(image, (x,y), (x+h, y+h), (0, 255, 0), 2)
+        roi_gray = gray[y:y+h, x:x+w]
+        roi_color = image[y:y+h, x:x+w]
+        eyes = eye_cascade.detectMultiScale(roi_gray)
+        for (ex,ey,ew,eh) in eyes:
+            cv2.rectangle(roi_color,(ex,ey),(ex+ew,ey+eh),(0,255,0),2)
+
+    if nogui:
+        cv2.imwrite('test_face.png', image)
+        return len(faces)
+    else:
+        cv2.imshow("Faces found", image)
+        cv2.waitKey(0)
+
+if __name__ == "__main__":
+    face_detects(sys.argv[1])
