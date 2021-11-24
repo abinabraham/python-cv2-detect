@@ -28,4 +28,4 @@ OpenCV grabs each frame from the webcam, and you can then detect faces by proces
 
 Sample Testing
 
-'''python3 face_detect.py doll.jpg'''
+**python3 face_detect.py doll.jpg**
